@@ -42,6 +42,9 @@ document.getElementById('add-money-btn')
         const addAmount = getValueNumber('add-amount');
         const pinNumber = getValueNumber('pin-number');
 
+        document.getElementById('account-number').value = '';
+        document.getElementById('add-amount').value = '';
+        document.getElementById('pin-number').value = '';
 
         // console.log(bank, bankNumber, addAmount, pinNumber);
 
@@ -55,6 +58,10 @@ document.getElementById('add-money-btn')
 
         if (pinNumber !== validPin) {
             alert('place valid pin number');
+            return;
+        }
+        if (isNaN(addAmount)) {
+            alert('provide amount')
             return;
         }
 
@@ -72,11 +79,6 @@ document.getElementById('add-money-btn')
 
 
 
-// document.getElementById('cashout-home-btn')
-//     .addEventListener('click', function () {
-//         cashoutContainer.style.display = 'block';
-//         addMoneyContainer.style.display = 'none';
-//     });
 
 // withdrow feature
 document.getElementById('withdrow-btn')
@@ -87,6 +89,10 @@ document.getElementById('withdrow-btn')
         const valid = 1234;
         const availableBalance = parseInt(document.getElementById('available-balance').innerText);
         const amount = getValueNumber('amount');
+
+        document.getElementById('amount').value = '';
+        document.getElementById('agent-number').value = '';
+        document.getElementById('pin').value = '';
 
         if (agentNumber.length !== 11) {
             alert('ptovid 11 digit agent number');
@@ -100,7 +106,10 @@ document.getElementById('withdrow-btn')
             alert('ato taka nei sala tor account a 😁');
             return;
         }
-
+        if (isNaN(amount)) {
+            alert('provide amount')
+            return;
+        }
         const newBalance = availableBalance - amount;
         document.getElementById('available-balance').innerText = newBalance;
 
@@ -112,9 +121,114 @@ document.getElementById('withdrow-btn')
         console.log(transactionData)
     });
 
+// tranesfar balance
+document.getElementById('send-btn')
+    .addEventListener('click', function (e) {
+        e.preventDefault();
+        const userNumber = document.getElementById('user-number').value;
+        const sendAmount = parseInt(document.getElementById('send-amount').value);
+        const pin = getValueNumber('send-pin')
+        const valid = 1234;
+        const availableBalance = parseInt(document.getElementById('available-balance').innerText);
 
+        document.getElementById('send-amount').value = '';
+        document.getElementById('user-number').value = '';
+        document.getElementById('send-pin').value = '';
 
-// Tranesfer button
+        if (userNumber.length !== 11) {
+            alert('invalid user number')
+            return;
+        }
+        if (pin !== valid) {
+            alert('invalid password')
+            return;
+        }
+        if (sendAmount <= 0) {
+            alert('invalid amount')
+            return;
+        }
+        if (isNaN(sendAmount)) {
+            alert('provide amount')
+            return;
+        }
+        const newBalance = availableBalance - sendAmount;
+        document.getElementById('available-balance').innerText = newBalance;
+
+        const data = {
+            name: 'Tranesfer Balance',
+            date: new Date().toLocaleDateString()
+        }
+        transactionData.push(data);
+    })
+
+// bonus
+document.getElementById('bonus-button')
+    .addEventListener('click', function (e) {
+        e.preventDefault();
+        const couponCode = parseInt(document.getElementById('coupon-code').value);
+        const code = 420;
+        const bonus = 499;
+        const availableBalance = parseInt(document.getElementById('available-balance').innerText);
+
+        document.getElementById('coupon-code').value = '';
+
+        if (couponCode !== code) {
+            alert('invalid coupon code');
+            return;
+        }
+
+        const newBalance = availableBalance + bonus;
+        // console.log(newBalance)
+
+        document.getElementById('available-balance').innerText = newBalance;
+
+        const data = {
+            name: 'Bonus',
+            date: new Date().toLocaleDateString()
+        }
+        transactionData.push(data);
+    })
+
+// bill feature
+document.getElementById('pay-bill-btn')
+    .addEventListener('click', function (e) {
+        e.preventDefault();
+        const billerId = document.getElementById('bill-id').value;
+        const billAmount = parseInt(document.getElementById('bill-amount').value);
+        const pin = parseInt(document.getElementById('bill-pin').value);
+        const valid = 1234;
+        const availableBalance = parseInt(document.getElementById('available-balance').innerText);
+
+        document.getElementById('bill-id').value = '';
+        document.getElementById('bill-amount').value = '';
+        document.getElementById('bill-pin').value = '';
+
+        if (billerId.length !== 11) {
+            alert('invalid id');
+            return;
+        }
+        if (pin !== valid) {
+            alert('valit pin');
+            return;
+        }
+        if (billAmount <= 0) {
+            alert('invalid amount');
+        }
+        if (isNaN(billAmount)) {
+            alert('invalid amount');
+        }
+
+        const newBalance = availableBalance - billAmount;
+        document.getElementById('available-balance').innerText = newBalance;
+
+        const data = {
+            name: 'Pay Bill',
+            date: new Date().toLocaleDateString()
+        }
+        transactionData.push(data);
+    })
+
+// Transaction button
 document.getElementById('transaction-btn')
     .addEventListener('click', function () {
         const transactionContainer = document.getElementById('transaction-container');
@@ -137,10 +251,9 @@ document.getElementById('transaction-btn')
                 <i class="fa-solid fa-ellipsis rotate-90"></i>
             </div>
         `
-        transactionContainer.appendChild(div);
+            transactionContainer.appendChild(div);
         }
     })
-
 
 
 
